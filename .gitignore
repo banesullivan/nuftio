@@ -1,0 +1,12 @@
+**/.DS_Store
+**/*.pyc
+**/__pycache__/
+**/.ipynb_checkpoints
+.coverage
+coverage.xml
+build/
+dist/
+nuftio.egg-info/
+docs/build/
+docs/source/content
+docs/source/index.rst
