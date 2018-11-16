@@ -1,0 +1,6 @@
+cPyparsing
+numpy
+pandas
+xmltodict
+properties
+discretize
