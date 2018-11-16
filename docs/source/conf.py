@@ -26,7 +26,7 @@ from gendocs import Generator
 # Automatically generate documentaion pages
 Generator().DocumentPackages([nuftio],
                              '../../README.rst',
-                             showprivate=True,
+                             showprivate=False,
                              notify=False,
                             )
 
