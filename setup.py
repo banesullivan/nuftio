@@ -16,7 +16,7 @@ setuptools.setup(
     description="File I/O for NUFT simulations",
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    url="https://github.com/OpenGeoVis/nuftio",
+    url="https://github.com/csmwteam/nuftio",
     packages=setuptools.find_packages(),
     install_requires=[
         'cPyparsing',

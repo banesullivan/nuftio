@@ -9,16 +9,24 @@ nuftio
    :target: https://pypi.org/project/nuftio/
    :alt: PyPI
 
-.. image:: https://travis-ci.org/OpenGeoVis/nuftio.svg?branch=master
-   :target: https://travis-ci.org/OpenGeoVis/nuftio
+.. image:: https://travis-ci.org/csmwteam/nuftio.svg?branch=master
+   :target: https://travis-ci.org/csmwteam/nuftio
    :alt: Build Status
 
-.. image:: https://img.shields.io/github/stars/OpenGeoVis/nuftio.svg?style=social&label=Stars
-   :target: https://github.com/OpenGeoVis/nuftio
+.. image:: https://img.shields.io/github/stars/csmwteam/nuftio.svg?style=social&label=Stars
+   :target: https://github.com/csmwteam/nuftio
    :alt: GitHub
 
 
 File I/O for NUFT simulations
+
+Be sure to take a look at the `example notebooks`_!
+
+.. _example notebooks: https://github.com/csmwteam/nuftio/blob/master/examples/
+
+For more information about NUFT and the NUFT data formats, see `the NUFT user manual`_
+
+.. _the NUFT user manual: https://www.researchgate.net/publication/259016501_User%27s_Manual_for_the_USNT_Module_of_the_NUFT_Code_Version_30
 
 
 
