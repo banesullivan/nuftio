@@ -5,21 +5,15 @@ nuftio
    :target: https://nuftio.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-.. image:: https://img.shields.io/pypi/v/nuftio.svg
-   :target: https://pypi.org/project/nuftio/
-   :alt: PyPI
-
-.. image:: https://travis-ci.org/csmwteam/nuftio.svg?branch=master
-   :target: https://travis-ci.org/csmwteam/nuftio
-   :alt: Build Status
-
 .. image:: https://img.shields.io/github/stars/csmwteam/nuftio.svg?style=social&label=Stars
    :target: https://github.com/csmwteam/nuftio
    :alt: GitHub
 
 
-File I/O for NUFT simulations (warning: this was hacked together by @banesullivan
-for a project.)
+File I/O for NUFT simulations (warning: this was hacked together by
+`@banesullivan`_ for a project.)
+
+.. _`@banesullivan`: https://github.com/banesullivan
 
 Be sure to take a look at the `example notebooks`_!
 
