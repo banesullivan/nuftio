@@ -211,7 +211,7 @@ class NuftMesh(discretize.TensorMesh):
             raise RuntimeError('File ("{}") not found.'.format(filename))
         # Now use spatial refernce data to reconstruct the TensorMesh
         #- The array titles that should always be present and that we will use
-        refs = ['index', 'i', 'j', 'k', 'x', 'dx', 'y', 'dy', 'z', 'dz', 'element_ref', 'nuft_ind']
+        refs = ['index', 'i', 'j', 'k', 'x', 'dx', 'y', 'dy', 'z', 'dz', 'element_ref', 'nuft_ind', 'volume']
         #- subtract one from indexing arrays because someone chose +1 indexing :(
         if fix_indices:
             data['index'] -= 1
