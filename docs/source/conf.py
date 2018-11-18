@@ -28,6 +28,7 @@ Generator().DocumentPackages([nuftio],
                              '../../README.rst',
                              showprivate=False,
                              notify=False,
+                             showinh=False,
                             )
 
 

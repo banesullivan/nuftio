@@ -236,11 +236,16 @@ class USNT(MeshSpecifications):
     def materials(self):
         return list(self.rocktab.keys())
 
-    # @property
-    # def attributes(self):
-    #     return list(nuftio.spec.RockType._props.keys())
+    @property
+    def attributes(self):
+        atts = []
+        for k,v in RockType._props.items():
+            if isinstance(v, properties.Float):
+                atts.append(k)
+        return atts
 
     def model(self, attribute):
+        """Gets a rocktab attribute as a NumPy array ready for discretize or PVGeo"""
         mod = np.empty(self.shape)
         mod[:] = np.nan
         for el_pref in self.mat.keys():
@@ -248,3 +253,13 @@ class USNT(MeshSpecifications):
                 for mc in self.mat[el_pref][mat_type]:
                     mod[mc.i[0]:mc.i[1]+1,mc.j[0]:mc.j[1]+1,mc.k[0]:mc.k[1]+1] = self.rocktab[mat_type]._get(attribute)
         return mod.flatten(order='f')
+
+
+    def allModels(self, dataframe=True):
+        """Returns all attributes in a Pandas DataFrame"""
+        df = pd.DataFrame()
+        for key in self.attributes:
+            df[key] = self.model(key)
+        if dataframe:
+            return df
+        return df.to_dict()
