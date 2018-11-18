@@ -1,10 +1,9 @@
-"""This is an example RST docstring for your new module in your new
-Python package.
-
-Always be sure to define an ``__all__`` list in your modules! Otherwise
-``gendocs`` will ignore your code.
+"""This modules holds all of the neccesarry functions and classes for reading
+NUFT input data into the classes described in  :module:`~nuftio.spec`.
 """
 from __future__ import print_function
+
+__displayname__ = 'File I/O'
 
 __all__ = [
     'NuftMesh',

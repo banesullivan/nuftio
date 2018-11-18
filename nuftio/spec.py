@@ -6,6 +6,8 @@ __all__ = [
     'USNT',
 ]
 
+__displayname__ = 'Specifications'
+
 import numpy as np
 import pandas as pd
 import properties
