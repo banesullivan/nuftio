@@ -1,5 +1,5 @@
 """This modules holds all of the neccesarry functions and classes for reading
-NUFT input data into the classes described in  :module:`~nuftio.spec`.
+NUFT input data into the classes described in  :mod:`~nuftio.spec`.
 """
 from __future__ import print_function
 
