@@ -161,6 +161,33 @@ class MeshSpecifications(properties.HasProperties):
             print('Validated Mesh Specs in {} seconds.'.format(time.time() - start_time))
         return props
 
+    @property
+    def definitions(self):
+        """Gets the ``mat_type`` definitions as integers to be matched with any
+        given rocktab file via the lookup table."""
+        mod = np.empty(self.shape, dtype=int)
+        lootbl = self.lookup_table.set_index('material')
+        for el_pref in self.mat.keys():
+            for mat_type in self.mat[el_pref].keys():
+                for mc in self.mat[el_pref][mat_type]:
+                    mod[mc.i[0]:mc.i[1]+1,mc.j[0]:mc.j[1]+1,mc.k[0]:mc.k[1]+1] = lootbl.loc[mat_type]['id']
+        return mod.flatten(order='f')
+
+
+    @property
+    def materials(self):
+        mats = []
+        for el_pref in self.mat.keys():
+            for mat_type in self.mat[el_pref].keys():
+                mats.append(mat_type)
+        return list(set(mats))
+
+    @property
+    def lookup_table(self):
+        mats = self.materials
+        df = pd.DataFrame(data=mats, columns=['material'])
+        df['id'] = pd.factorize(df['material'])[0]
+        return df
 
     def toTensorMesh(self):
         return discretize.TensorMesh(h=[self.dx, self.dy, self.dz])
@@ -233,10 +260,6 @@ class USNT(MeshSpecifications):
     rocktab = properties.Dictionary('Porous medium properties', key_prop=properties.String('The material type name'), value_prop=RockType)
 
     @property
-    def materials(self):
-        return list(self.rocktab.keys())
-
-    @property
     def attributes(self):
         atts = []
         for k,v in RockType._props.items():
@@ -263,3 +286,15 @@ class USNT(MeshSpecifications):
         if dataframe:
             return df
         return df.to_dict()
+
+
+    def saveLithLookupTable(self, filename):
+        atts = ['K0', 'K1', 'K2', 'porosity', 'solid_density']
+        lootbl = self.lookup_table.set_index('material')
+        for at in atts:
+            lootbl[at] = np.full(len(lootbl), np.nan)
+            for k in lootbl.index:
+                lootbl.loc[k,at] = self.rocktab[k]._get(at)
+        lootbl = lootbl.reset_index()
+        lootbl = lootbl.set_index('id')
+        return lootbl.to_csv(filename, index_label='Index')
