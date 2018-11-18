@@ -18,7 +18,8 @@ nuftio
    :alt: GitHub
 
 
-File I/O for NUFT simulations
+File I/O for NUFT simulations (warning: this was hacked together by @banesullivan
+for a project.)
 
 Be sure to take a look at the `example notebooks`_!
 
