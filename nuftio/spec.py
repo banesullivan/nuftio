@@ -175,6 +175,13 @@ class MeshSpecifications(properties.HasProperties):
                     mod[mc.i[0]:mc.i[1]+1,mc.j[0]:mc.j[1]+1,mc.k[0]:mc.k[1]+1] = lootbl.loc[mat_type]['id']
         return mod.flatten(order='f')
 
+    @property
+    def injector(self):
+        mod = np.full(self.shape, False, dtype=bool)
+        for mat_type in self.mat['wb1'].keys():
+            for mc in self.mat['wb1'][mat_type]:
+                mod[mc.i[0]:mc.i[1]+1,mc.j[0]:mc.j[1]+1,mc.k[0]:mc.k[1]+1] = True
+        return mod.flatten(order='f')
 
     @property
     def materials(self):
