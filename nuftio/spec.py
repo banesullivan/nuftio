@@ -123,7 +123,7 @@ class MeshSpecifications(properties.HasProperties):
         if not isinstance(values, dict):
             raise RuntimeError('Input values must be a dictionary')
         start_time = time.time()
-        print('Creating Mesh Specs...', end='\r')
+        #print('Creating Mesh Specs...', end='\r')
         props = cls()
         mat = values.pop('mat')
         save = copy.deepcopy(mat)
@@ -155,7 +155,7 @@ class MeshSpecifications(properties.HasProperties):
         props._set('mat', mat)
         # Reutrn the object
         values['mat'] = save
-        print('Created Mesh Specs in {} seconds.'.format(time.time() - start_time))
+        #print('Created Mesh Specs in {} seconds.'.format(time.time() - start_time))
         if validate:
             start_time = time.time()
             print('Validating Mesh Specs...', end='\r')

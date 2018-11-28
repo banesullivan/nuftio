@@ -113,20 +113,20 @@ class Parser(properties.HasProperties):
     def parseString(text, opener='(', closer=')'):
         """Perses a string of text in NUFT data format to nested dictionaries"""
         start_time = time.time()
-        print('Parsing...', end='\r')
+        # print('Parsing...', end='\r')
         # Create the data block parser
         r = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'*+,-./:;<=>?@[\]^_`{|}~'
         se = pyparsing.nestedExpr(opener=opener, closer=closer, content=pyparsing.Word(r))
         # Run the parsing and get a nest list of the results
         results = se.parseString(text)
         results = results.asList()
-        print('Parsed text in {} seconds'.format(time.time() - start_time))
+        # print('Parsed text in {} seconds'.format(time.time() - start_time))
         # Now turn that nested dictionary into data objects!
         data = Parser.__toDict(results)
         return data
 
     @staticmethod
-    def parseTabFile(filename, comments=';', skiprows=0, opener='(', closer=')'):
+    def parseTabFile(filename, comments=';', skiprows=0, opener='(', closer=')', names=None):
         """Reads the NUFT table data format (``.tab`` files)."""
         # reade the file lines
         text = Parser._readFileContents(filename, comments=comments, skiprows=skiprows)
@@ -138,7 +138,7 @@ class Parser(properties.HasProperties):
         dfs = []
         # Now create pandas data frames of all the tables in that file
         for tab in tables:
-            dfs.append(pd.read_table(StringIO(tables[0]), delim_whitespace=True, header=None))
+            dfs.append(pd.read_table(StringIO(tables[0]), delim_whitespace=True, names=names))
         if len(dfs) == 1:
             # Id only one dataframe, return it
             return dfs[0]
@@ -183,9 +183,9 @@ def read_usnt(fname_mesh, fname_rtab,  comments=';', skiprows=0, opener='(', clo
     usnt.rocktab = rocktab
     return usnt
 
-def read_tab(filename, comments=';', skiprows=0, opener='(', closer=')'):
+def read_tab(filename, comments=';', skiprows=0, opener='(', closer=')', names=None):
     """Reads the NUFT table data format (``.tab`` files)."""
-    return Parser.parseTabFile(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer)
+    return Parser.parseTabFile(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer, names=names)
 
 
 
