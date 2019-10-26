@@ -5,8 +5,8 @@ nuftio
    :target: https://nuftio.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
-.. image:: https://img.shields.io/github/stars/csmwteam/nuftio.svg?style=social&label=Stars
-   :target: https://github.com/csmwteam/nuftio
+.. image:: https://img.shields.io/github/stars/banesullivan/nuftio.svg?style=social&label=Stars
+   :target: https://github.com/banesullivan/nuftio
    :alt: GitHub
 
 
@@ -15,9 +15,6 @@ File I/O for NUFT simulations (warning: this was hacked together by
 
 .. _`@banesullivan`: https://github.com/banesullivan
 
-Be sure to take a look at the `example notebooks`_!
-
-.. _example notebooks: https://github.com/csmwteam/nuftio/blob/master/examples/
 
 For more information about NUFT and the NUFT data formats, see `the NUFT user manual`_
 
