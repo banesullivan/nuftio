@@ -16,7 +16,7 @@ setuptools.setup(
     description="File I/O for NUFT simulations",
     long_description=long_description,
     long_description_content_type="text/x-rst",
-    url="https://github.com/csmwteam/nuftio",
+    url="https://github.com/banesullivan/nuftio",
     packages=setuptools.find_packages(),
     install_requires=[
         'cPyparsing',
@@ -28,7 +28,7 @@ setuptools.setup(
     ],
     classifiers=(
         "Programming Language :: Python",
-        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         'Natural Language :: English',
     ),
