@@ -19,7 +19,7 @@ setuptools.setup(
     url="https://github.com/banesullivan/nuftio",
     packages=setuptools.find_packages(),
     install_requires=[
-        'cPyparsing',
+        'cPyparsing==2.2.0.1.1.1',
         'numpy',
         'pandas',
         'xmltodict',
