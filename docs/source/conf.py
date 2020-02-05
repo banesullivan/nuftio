@@ -39,10 +39,9 @@ copyright = '2018, Bane Sullivan'
 author = 'Bane Sullivan'
 
 # The short X.Y version
-version = ''
+version = nuftio.__version__
 # The full version, including alpha/beta/rc tags
-release = '0.0.0'
-
+release = version
 
 # -- General configuration ---------------------------------------------------
 

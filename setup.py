@@ -27,9 +27,11 @@ setuptools.setup(
         'discretize',
     ],
     classifiers=(
-        "Programming Language :: Python",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
         'Natural Language :: English',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ),
 )

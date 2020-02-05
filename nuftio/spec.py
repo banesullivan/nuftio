@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 import properties
 import copy
-import warnings
+# import warnings
 import time
 import discretize
 
@@ -94,8 +94,12 @@ class MeshSpecifications(properties.HasProperties):
         return len(self.dz)
 
     @property
-    def nC(self):
+    def n_cells(self):
         return (self.nx * self.ny * self.nz)
+
+    @property
+    def nC(self):
+        return self.n_cells
 
     @property
     def shape(self):
@@ -107,7 +111,7 @@ class MeshSpecifications(properties.HasProperties):
     #radcon
 
     @staticmethod
-    def __pasrseCellList(line):
+    def _pasrse_cell_list(line):
         line_list = []
         for seg in line:
             if '*' in seg:
@@ -117,6 +121,10 @@ class MeshSpecifications(properties.HasProperties):
                 seg_arr = np.array([float(seg)], dtype=float)
             line_list.append(seg_arr)
         return np.concatenate(line_list)
+
+    @staticmethod
+    def __pasrseCellList(line):
+        return MeshSpecifications._pasrse_cell_list(line)
 
     @classmethod
     def _create(cls, values, validate=False):
@@ -198,8 +206,16 @@ class MeshSpecifications(properties.HasProperties):
         df['id'] = pd.factorize(df['material'])[0]
         return df
 
-    def toTensorMesh(self):
+    def to_tensor_mesh(self):
         return discretize.TensorMesh(h=[self.dx, self.dy, self.dz])
+
+    def toTensorMesh(self):
+        return self.to_tensor_mesh()
+
+    def to_rectilinear_grid(self):
+        """Create a PyVista ``RectilinearGrid``."""
+        import pyvista
+        return pyvista.RectilinearGrid(self.dx, self.dy, self.dz)
 
 
 
@@ -286,8 +302,7 @@ class USNT(MeshSpecifications):
                     mod[mc.i[0]:mc.i[1]+1,mc.j[0]:mc.j[1]+1,mc.k[0]:mc.k[1]+1] = self.rocktab[mat_type]._get(attribute)
         return mod.flatten(order='f')
 
-
-    def allModels(self, dataframe=True):
+    def all_models(self, dataframe=True):
         """Returns all attributes in a Pandas DataFrame"""
         df = pd.DataFrame()
         for key in self.attributes:
@@ -296,8 +311,10 @@ class USNT(MeshSpecifications):
             return df
         return df.to_dict()
 
+    def allModels(self, dataframe=True):
+        return self.all_models(dataframe=dataframe)
 
-    def saveLithLookupTable(self, filename):
+    def save_lith_lookup_table(self, filename):
         atts = ['K0', 'K1', 'K2', 'porosity', 'solid_density']
         lootbl = self.lookup_table.set_index('material')
         for at in atts:
@@ -307,3 +324,6 @@ class USNT(MeshSpecifications):
         lootbl = lootbl.reset_index()
         lootbl = lootbl.set_index('id')
         return lootbl.to_csv(filename, index_label='Index')
+
+    def saveLithLookupTable(self, filename):
+        return self.save_lith_lookup_table(filename)

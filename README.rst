@@ -5,6 +5,9 @@ nuftio
    :target: https://nuftio.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
 
+.. image:: https://travis-ci.com/banesullivan/nuftio.svg?branch=master
+   :target: https://travis-ci.com/banesullivan/nuftio
+
 .. image:: https://img.shields.io/github/stars/banesullivan/nuftio.svg?style=social&label=Stars
    :target: https://github.com/banesullivan/nuftio
    :alt: GitHub

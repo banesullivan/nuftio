@@ -38,11 +38,11 @@ class Parser(properties.HasProperties):
     COMMENTS = ";"
 
     @staticmethod
-    def __toDict(lst, no=False):
+    def _to_dict(lst, no=False):
         """An internal helper to handle parsing the ridiculously cumbersome
         NUFT data format into nested dictionaries."""
         if isinstance(lst[0], list):
-            return Parser.__toDict(lst[0])
+            return Parser._to_dict(lst[0])
         key = lst[0]
         key = key.replace('-','_')
         values = lst[1::]
@@ -59,10 +59,10 @@ class Parser(properties.HasProperties):
         if isinstance(values[0], list) and len(values[0]) > 1:
             clean = {}
             for vs in values:
-                k,v = Parser.__toDict(vs, no=True)
+                k,v = Parser._to_dict(vs, no=True)
                 if key == 'mat':
                     tmp = clean.get(k, {})
-                    nk, nv = Parser.__toDict(v, no=True)
+                    nk, nv = Parser._to_dict(v, no=True)
                     tmp2 = tmp.get(nk, [])
                     tmp2.append(nv)
                     tmp[nk] = tmp2
@@ -83,7 +83,7 @@ class Parser(properties.HasProperties):
 
 
     @staticmethod
-    def _createSpecs(dic):
+    def _create_specs(dic):
         """Creates the proper specs for the input nested dictionary. The top
         level of values will be transformed to ``spec`` objects
         """
@@ -101,32 +101,32 @@ class Parser(properties.HasProperties):
 
 
     @staticmethod
-    def parseFile(filename, comments=';', skiprows=0, opener='(', closer=')'):
+    def parse_file(filename, comments=';', skiprows=0, opener='(', closer=')'):
         """Parses general NUFT data file into a disctionary. If it is a table
-        then use the ``parseTabFile`` method.
+        then use the ``parse_tab_file`` method.
         """
         text = Parser._readFileContents(filename, comments=comments, skiprows=skiprows)
         # Run the parsing and get a nest list of the results
-        return Parser.parseString(text, opener=opener, closer=closer)
+        return Parser.parse_string(text, opener=opener, closer=closer)
 
     @staticmethod
-    def parseString(text, opener='(', closer=')'):
+    def parse_string(text, opener='(', closer=')'):
         """Perses a string of text in NUFT data format to nested dictionaries"""
-        start_time = time.time()
+        # start_time = time.time()
         # print('Parsing...', end='\r')
         # Create the data block parser
         r = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'*+,-./:;<=>?@[\]^_`{|}~'
         se = pyparsing.nestedExpr(opener=opener, closer=closer, content=pyparsing.Word(r))
         # Run the parsing and get a nest list of the results
-        results = se.parseString(text)
+        results = se.parse_string(text)
         results = results.asList()
         # print('Parsed text in {} seconds'.format(time.time() - start_time))
         # Now turn that nested dictionary into data objects!
-        data = Parser.__toDict(results)
+        data = Parser._to_dict(results)
         return data
 
     @staticmethod
-    def parseTabFile(filename, comments=';', skiprows=0, opener='(', closer=')', names=None):
+    def parse_tab_file(filename, comments=';', skiprows=0, opener='(', closer=')', names=None):
         """Reads the NUFT table data format (``.tab`` files)."""
         # reade the file lines
         text = Parser._readFileContents(filename, comments=comments, skiprows=skiprows)
@@ -149,12 +149,12 @@ class Parser(properties.HasProperties):
 
 def read_genmsh(filename, comments=';', skiprows=0, opener='(', closer=')', usnt=False):
     """Reads genmsh specifiation files"""
-    datadict = Parser.parseFile(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer)
+    datadict = Parser.parse_file(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer)
     keys = list(datadict.keys())
     if len(keys) != 1:
         raise RuntimeError('This file is specifies too many/few data structures: {}'.format(keys))
     if keys[0] != 'genmsh':
-        raise RuntimeError('The data type ({}) is not (genmsh).'.format(key[0]))
+        raise RuntimeError('The data type ({}) is not (genmsh).'.format(keys[0]))
     # Okay we got a genmsh
     if usnt:
         return USNT._create(datadict[keys[0]])
@@ -163,12 +163,12 @@ def read_genmsh(filename, comments=';', skiprows=0, opener='(', closer=')', usnt
 
 def read_rocktab(filename, comments=';', skiprows=0, opener='(', closer=')'):
     """Reads rocktab material specification files"""
-    datadict = Parser.parseFile(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer)
+    datadict = Parser.parse_file(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer)
     keys = list(datadict.keys())
     if len(keys) != 1:
         raise RuntimeError('This file is specifies too many/few data structures: {}'.format(keys))
     if keys[0] != 'rocktab':
-        raise RuntimeError('The data type ({}) is not (rocktab).'.format(key[0]))
+        raise RuntimeError('The data type ({}) is not (rocktab).'.format(keys[0]))
     # Okay we got a rocktab
     tabs = {}
     for k, v in datadict[keys[0]].items():
@@ -185,7 +185,7 @@ def read_usnt(fname_mesh, fname_rtab,  comments=';', skiprows=0, opener='(', clo
 
 def read_tab(filename, comments=';', skiprows=0, opener='(', closer=')', names=None):
     """Reads the NUFT table data format (``.tab`` files)."""
-    return Parser.parseTabFile(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer, names=names)
+    return Parser.parse_tab_file(filename, comments=comments, skiprows=skiprows, opener=opener, closer=closer, names=names)
 
 
 
@@ -195,7 +195,7 @@ class NuftMesh(discretize.TensorMesh):
 
 
     @classmethod
-    def readNuft(TensorMesh, filename, fix_indices=True):
+    def read_nuft(TensorMesh, filename, fix_indices=True):
         """Run the Foo algorithm on an input number ``nub``.
 
         Args:
@@ -234,9 +234,9 @@ class NuftMesh(discretize.TensorMesh):
         odx = xedge[xedge['j'] == 0]
         ox = (odx['x'] - odx['dx']/2.).values[0]
         ody = yedge[yedge['i'] == 0]
-        oy = (odx['y'] - odx['dy']/2.).values[0]
+        oy = (ody['y'] - ody['dy']/2.).values[0]
         odz = xedge[xedge['j'] == 0]
-        oz = (odx['z'] - odx['dz']/2.).values[0]
+        oz = (odz['z'] - odz['dz']/2.).values[0]
         # Construct the TensorMesh
         mesh = TensorMesh([xt, yt, zt], x0=(ox, oy, oz))
         # Make a model dictionary
